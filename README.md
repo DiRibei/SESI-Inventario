@@ -1,0 +1,1 @@
+This is just a school project. So, whatever you see here, is not at all what me, and whoever else is involved will output at work or at a course, nor anywhere else. We are doing this out of obligation, meaning, we have less motivation to do it, ergo, it turns out bad (or just worse than it could if we had chosen to make this)
