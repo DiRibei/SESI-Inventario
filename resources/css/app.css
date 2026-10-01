@@ -1,0 +1,106 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    /* ── Typography ── */
+    --font-sans: 'Inter', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+    /* ── SENAI / SESI Brand Palette ── */
+    --color-primary:        #0081fc;   /* Primary Blue  — buttons, focus rings, highlights */
+    --color-navy:           #0a0046;   /* Deep Navy     — sidebar, table headers, H1/H2 */
+    --color-corporate:      #2263c8;   /* Corporate Blue — secondary buttons, icons, badges */
+    --color-accent:         #5a80ff;   /* Accent Blue   — hover states, active pills */
+    --color-gradient-end:   #063899;   /* Gradient End  — login background gradient */
+    --color-muted:          #606060;   /* Neutral Gray  — muted text, borders, placeholders */
+
+    /* Semantic aliases */
+    --color-brand:          var(--color-primary);
+    --color-brand-dark:     var(--color-navy);
+    --color-brand-hover:    var(--color-accent);
+}
+
+/* ── Global resets & base ── */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    @apply bg-gray-50 text-gray-800 antialiased;
+    font-family: var(--font-sans);
+}
+
+/* ── Scrollbar (Webkit) ── */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+    background: var(--color-corporate);
+    border-radius: 3px;
+}
+
+/* ── Utility: sidebar nav link ── */
+.nav-link {
+    @apply flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium
+           text-white/70 transition-all duration-200 hover:bg-white/10 hover:text-white;
+}
+
+.nav-link.active {
+    @apply bg-white/15 text-white;
+}
+
+/* ── Utility: primary button ── */
+.btn-primary {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold
+           text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2;
+    background-color: var(--color-primary);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-accent);
+}
+
+/* ── Utility: card ── */
+.card {
+    @apply bg-white rounded-2xl shadow-sm border border-gray-100 p-6;
+}
+
+/* ── Utility: critical stock badge ── */
+.badge-critical {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold
+           bg-red-100 text-red-700;
+}
+
+.badge-ok {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold
+           bg-green-100 text-green-700;
+}
+
+/* ── Entrada / Saída / Ajuste / Transferência badges ── */
+.badge-entrada {
+    @apply inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold
+           bg-emerald-100 text-emerald-700;
+}
+
+.badge-saida {
+    @apply inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold
+           bg-red-100 text-red-700;
+}
+
+.badge-ajuste {
+    @apply inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold
+           bg-amber-100 text-amber-700;
+}
+
+.badge-transferencia {
+    @apply inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold
+           bg-blue-100 text-blue-700;
+}
