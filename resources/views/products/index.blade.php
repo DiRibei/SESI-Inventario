@@ -127,12 +127,22 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="6" class="px-6 py-16 text-center text-slate-400">
-                        <svg class="w-12 h-12 mx-auto mb-3 text-slate-200" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
-                        </svg>
-                        <p class="font-bold text-slate-600">Nenhum produto encontrado</p>
-                        <p class="text-xs text-slate-400 mt-1">Tente ajustar seus termos de busca ou filtros.</p>
+                    <td colspan="6" class="p-0">
+                        @if(request()->hasAny(['search', 'category_id', 'critico']))
+                        <x-empty-state
+                            title="Nenhum produto encontrado"
+                            description="Nenhum material do almoxarifado corresponde aos filtros ou termos de pesquisa aplicados."
+                            actionText="Limpar Filtros"
+                            :actionUrl="route('products.index')"
+                        />
+                        @else
+                        <x-empty-state
+                            title="Catálogo de Produtos Vazio"
+                            description="Ainda não existem itens de estoque cadastrados no sistema do almoxarifado."
+                            :actionText="auth()->user()->isAdmin() ? 'Cadastrar Primeiro Produto' : null"
+                            :actionUrl="auth()->user()->isAdmin() ? route('products.create') : null"
+                        />
+                        @endif
                     </td>
                 </tr>
                 @endforelse

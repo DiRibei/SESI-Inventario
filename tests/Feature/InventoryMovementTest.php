@@ -147,4 +147,61 @@ class InventoryMovementTest extends TestCase
         $response = $this->actingAs($this->operador)->get('/manual');
         $response->assertStatus(200);
     }
+
+    public function test_ajuste_reducao_cannot_exceed_available_stock_preventing_negative_inventory(): void
+    {
+        $initialStock = $this->product->estoque_atual;
+
+        $response = $this->actingAs($this->operador)->post('/inventory-movements', [
+            'product_id'   => $this->product->id,
+            'tipo'         => 'ajuste',
+            'ajuste_tipo'  => 'reducao',
+            'quantidade'   => $initialStock + 50,
+            'motivo'       => 'Tentativa de ajuste negativo excessivo',
+        ]);
+
+        $response->assertSessionHasErrors('quantidade');
+
+        $this->product->refresh();
+        $this->assertEquals($initialStock, $this->product->estoque_atual);
+    }
+
+    public function test_low_stock_badge_triggers_when_stock_is_at_or_below_minimum(): void
+    {
+        // When stock > min: not critical
+        $this->product->update(['estoque_atual' => 10, 'estoque_minimo' => 5]);
+        $this->assertFalse($this->product->isEstoqueCritico());
+
+        // When stock == min: critical
+        $this->product->update(['estoque_atual' => 5, 'estoque_minimo' => 5]);
+        $this->assertTrue($this->product->isEstoqueCritico());
+
+        // When stock < min: critical
+        $this->product->update(['estoque_atual' => 2, 'estoque_minimo' => 5]);
+        $this->assertTrue($this->product->isEstoqueCritico());
+    }
+
+    public function test_user_with_movements_is_deactivated_instead_of_deleted_to_preserve_audit(): void
+    {
+        // Operator records a movement
+        InventoryMovement::create([
+            'product_id'     => $this->product->id,
+            'user_id'        => $this->operador->id,
+            'tipo'           => 'entrada',
+            'quantidade'     => 1,
+            'estoque_antes'  => 10,
+            'estoque_depois' => 11,
+        ]);
+
+        $response = $this->actingAs($this->admin)->delete("/users/{$this->operador->id}");
+
+        $response->assertRedirect('/users');
+        $response->assertSessionHas('warning');
+
+        // Operator should not be hard-deleted, but deactivated (ativo = false)
+        $this->assertDatabaseHas('users', [
+            'id'    => $this->operador->id,
+            'ativo' => false,
+        ]);
+    }
 }

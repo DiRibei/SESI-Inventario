@@ -117,15 +117,23 @@
             </div>
 
             <div class="flex items-center justify-between pt-2">
-                <form method="POST" action="{{ route('products.destroy', $product) }}" onsubmit="return confirm('Confirmar exclusão do produto?')">
-                    @csrf @method('DELETE')
-                    <button type="submit" class="text-sm text-red-500 hover:text-red-700 transition-colors">Excluir produto</button>
-                </form>
+                <button type="button"
+                        onclick="openDeleteModal('delete-product-form', '{{ addslashes($product->nome) }}', 'Tem certeza que deseja remover este produto do catálogo ativo? O histórico de movimentações será preservado para fins de auditoria.')"
+                        class="text-sm font-semibold text-rose-600 hover:text-rose-700 transition-colors inline-flex items-center gap-1.5">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                    Excluir produto
+                </button>
                 <div class="flex items-center gap-3">
                     <a href="{{ route('products.show', $product) }}" class="px-5 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-600 hover:bg-gray-50">Cancelar</a>
                     <button type="submit" class="btn-primary px-6 py-2.5">Salvar Alterações</button>
                 </div>
             </div>
+        </form>
+
+        {{-- Standalone delete form to prevent invalid nested form HTML --}}
+        <form id="delete-product-form" method="POST" action="{{ route('products.destroy', $product) }}" class="hidden">
+            @csrf
+            @method('DELETE')
         </form>
     </div>
 </div>

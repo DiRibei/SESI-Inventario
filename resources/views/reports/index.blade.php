@@ -154,13 +154,12 @@
 <div class="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
     
     @if($movements->isEmpty())
-    <div class="p-12 text-center text-slate-400 text-sm">
-        <svg class="w-12 h-12 mx-auto text-slate-300 mb-3" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-        </svg>
-        <p class="font-semibold text-slate-700">Nenhum registro encontrado para estes critérios</p>
-        <p class="text-xs text-slate-400 mt-1">Tente ajustar o intervalo de datas ou remover alguns filtros.</p>
-    </div>
+    <x-empty-state
+        title="Nenhum registro encontrado para este período"
+        description="Não há movimentações de almoxarifado registradas com os filtros ou datas selecionados."
+        actionText="Redefinir Filtros"
+        :actionUrl="route('reports.index')"
+    />
     @else
     <div class="overflow-x-auto">
         <table class="w-full text-xs text-left">

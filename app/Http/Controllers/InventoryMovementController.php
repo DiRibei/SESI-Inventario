@@ -66,13 +66,22 @@ class InventoryMovementController extends Controller
             $product = Product::lockForUpdate()->findOrFail($data['product_id']);
 
             $quantidade = (int) $data['quantidade'];
-            $estoque_antes = $product->estoque_atual;
+            $estoque_antes = (int) $product->estoque_atual;
 
-            if (in_array($data['tipo'], ['saida', 'ajuste']) && $data['tipo'] !== 'ajuste') {
-                // Prevent negative inventory for saída
+            // Strict Business Rule 1: Prevent negative inventory on Saída
+            if ($data['tipo'] === 'saida') {
                 if (! $product->hasSufficientStock($quantidade)) {
                     throw \Illuminate\Validation\ValidationException::withMessages([
-                        'quantidade' => "Estoque insuficiente. Disponível: {$product->estoque_atual} {$product->unidade_medida}.",
+                        'quantidade' => "Estoque insuficiente para \"{$product->nome}\". Saldo atual disponível: {$product->estoque_atual} {$product->unidade_medida}. A quantidade solicitada ({$quantidade}) geraria saldo negativo.",
+                    ]);
+                }
+            }
+
+            // Strict Business Rule 2: Prevent negative inventory on Ajuste (redução)
+            if ($data['tipo'] === 'ajuste' && $request->input('ajuste_tipo') === 'reducao') {
+                if (! $product->hasSufficientStock($quantidade)) {
+                    throw \Illuminate\Validation\ValidationException::withMessages([
+                        'quantidade' => "Redução de inventário inválida para \"{$product->nome}\". O corte de {$quantidade} {$product->unidade_medida} é maior que o saldo em estoque ({$product->estoque_atual} {$product->unidade_medida}).",
                     ]);
                 }
             }
@@ -82,27 +91,31 @@ class InventoryMovementController extends Controller
                 'entrada'       =>  $quantidade,
                 'saida'         => -$quantidade,
                 'ajuste'        => ($request->input('ajuste_tipo') === 'reducao') ? -$quantidade : $quantidade,
-                'transferencia' =>  0, // stock same location change only
+                'transferencia' =>  0, // stock quantity remains unchanged, physical location is updated
             };
-
-            // Block negative inventory absolutely
-            if ($estoque_antes + $delta < 0) {
-                throw \Illuminate\Validation\ValidationException::withMessages([
-                    'quantidade' => "Operação resultaria em estoque negativo ({$estoque_antes} + ({$delta}) < 0). Verifique a quantidade.",
-                ]);
-            }
 
             $estoque_depois = $estoque_antes + $delta;
 
-            // Update product stock
-            $product->update(['estoque_atual' => $estoque_depois]);
+            // Strict Business Rule 3: Global safety check to absolutely prevent negative inventory
+            if ($estoque_depois < 0) {
+                throw \Illuminate\Validation\ValidationException::withMessages([
+                    'quantidade' => "Operação não autorizada: o saldo final resultaria em valor negativo ({$estoque_depois} {$product->unidade_medida}).",
+                ]);
+            }
 
-            // Write immutable movement record
+            // Update product stock and optionally storage location on transfer
+            $updateData = ['estoque_atual' => $estoque_depois];
+            if ($data['tipo'] === 'transferencia' && !empty($data['storage_location_id'])) {
+                $updateData['storage_location_id'] = $data['storage_location_id'];
+            }
+            $product->update($updateData);
+
+            // Write immutable movement record for audit
             InventoryMovement::create([
                 'product_id'          => $product->id,
                 'user_id'             => auth()->id(),
                 'tipo'                => $data['tipo'],
-                'quantidade'          => $delta,   // signed
+                'quantidade'          => $delta,   // signed delta (+/-)
                 'estoque_antes'       => $estoque_antes,
                 'estoque_depois'      => $estoque_depois,
                 'motivo'              => $data['motivo'] ?? null,
@@ -110,12 +123,12 @@ class InventoryMovementController extends Controller
                 'lote'                => $data['lote'] ?? null,
                 'data_validade'       => $data['data_validade'] ?? null,
                 'preco_unitario'      => $data['preco_unitario'] ?? null,
-                'storage_location_id' => $data['storage_location_id'] ?? null,
+                'storage_location_id' => $data['storage_location_id'] ?? $product->storage_location_id,
             ]);
         });
 
         return redirect()->route('inventory-movements.index')
-            ->with('success', 'Movimentação registrada com sucesso!');
+            ->with('success', 'Movimentação registrada com sucesso no almoxarifado!');
     }
 
     public function show(InventoryMovement $inventoryMovement)

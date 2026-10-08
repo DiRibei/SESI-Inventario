@@ -68,6 +68,29 @@ body {
     background-color: var(--color-accent);
 }
 
+/* ── Utility: secondary button ── */
+.btn-secondary {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold
+           border border-slate-200 bg-white text-slate-700 transition-all duration-200
+           hover:bg-slate-50 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-offset-2;
+}
+
+/* ── Utility: toast enter animation ── */
+@keyframes toastSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-12px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.toast-enter {
+    animation: toastSlideIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 /* ── Utility: card ── */
 .card {
     @apply bg-white rounded-2xl shadow-sm border border-gray-100 p-6;

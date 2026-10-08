@@ -259,32 +259,69 @@
             </div>
         </header>
 
-        {{-- Flash Alerts --}}
-        <div class="px-4 sm:px-6 pt-4 space-y-2 no-print">
+        {{-- ── FLOATING TOAST NOTIFICATION CONTAINER ────────────────────────── --}}
+        <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-2.5 max-w-sm w-full pointer-events-none no-print">
+            {{-- Initial server-side session toasts --}}
             @if(session('success'))
-            <div class="flex items-center justify-between gap-3 px-4 py-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm shadow-xs animate-fade-in">
-                <div class="flex items-center gap-2.5">
-                    <svg class="w-5 h-5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                    <span class="font-medium">{{ session('success') }}</span>
+            <div class="pointer-events-auto flex items-start gap-3 p-4 rounded-2xl bg-white border border-emerald-200 shadow-xl text-slate-800 text-xs transition-all duration-300 transform toast-item"
+                 style="border-left: 4px solid #10b981;">
+                <div class="w-7 h-7 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
                 </div>
-                <button type="button" onclick="this.parentElement.remove()" class="text-emerald-500 hover:text-emerald-700">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                <div class="flex-1 min-w-0 pt-0.5">
+                    <p class="font-bold text-slate-900 text-xs">Sucesso</p>
+                    <p class="text-slate-600 mt-0.5 leading-relaxed">{{ session('success') }}</p>
+                </div>
+                <button type="button" onclick="this.closest('.toast-item').remove()" class="text-slate-400 hover:text-slate-600 p-1">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                 </button>
             </div>
             @endif
 
             @if(session('error'))
-            <div class="flex items-center justify-between gap-3 px-4 py-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-sm shadow-xs animate-fade-in">
-                <div class="flex items-center gap-2.5">
-                    <svg class="w-5 h-5 text-rose-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                    <span class="font-medium">{{ session('error') }}</span>
+            <div class="pointer-events-auto flex items-start gap-3 p-4 rounded-2xl bg-white border border-rose-200 shadow-xl text-slate-800 text-xs transition-all duration-300 transform toast-item"
+                 style="border-left: 4px solid #ef4444;">
+                <div class="w-7 h-7 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center shrink-0">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                 </div>
-                <button type="button" onclick="this.parentElement.remove()" class="text-rose-500 hover:text-rose-700">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                <div class="flex-1 min-w-0 pt-0.5">
+                    <p class="font-bold text-slate-900 text-xs">Atenção / Erro</p>
+                    <p class="text-slate-600 mt-0.5 leading-relaxed">{{ session('error') }}</p>
+                </div>
+                <button type="button" onclick="this.closest('.toast-item').remove()" class="text-slate-400 hover:text-slate-600 p-1">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            @endif
+
+            @if(session('warning'))
+            <div class="pointer-events-auto flex items-start gap-3 p-4 rounded-2xl bg-white border border-amber-200 shadow-xl text-slate-800 text-xs transition-all duration-300 transform toast-item"
+                 style="border-left: 4px solid #f59e0b;">
+                <div class="w-7 h-7 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                </div>
+                <div class="flex-1 min-w-0 pt-0.5">
+                    <p class="font-bold text-slate-900 text-xs">Aviso do Sistema</p>
+                    <p class="text-slate-600 mt-0.5 leading-relaxed">{{ session('warning') }}</p>
+                </div>
+                <button type="button" onclick="this.closest('.toast-item').remove()" class="text-slate-400 hover:text-slate-600 p-1">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            @endif
+
+            @if(session('info') || session('status'))
+            <div class="pointer-events-auto flex items-start gap-3 p-4 rounded-2xl bg-white border border-blue-200 shadow-xl text-slate-800 text-xs transition-all duration-300 transform toast-item"
+                 style="border-left: 4px solid #0081fc;">
+                <div class="w-7 h-7 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                </div>
+                <div class="flex-1 min-w-0 pt-0.5">
+                    <p class="font-bold text-slate-900 text-xs">Informação</p>
+                    <p class="text-slate-600 mt-0.5 leading-relaxed">{{ session('info') ?? session('status') }}</p>
+                </div>
+                <button type="button" onclick="this.closest('.toast-item').remove()" class="text-slate-400 hover:text-slate-600 p-1">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                 </button>
             </div>
             @endif
@@ -304,6 +341,29 @@
     </div>
 </div>
 
+{{-- ── REUSABLE CONFIRMATION MODAL ────────────────────────────────────────── --}}
+<div id="confirmDeleteModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs transition-opacity duration-200" onclick="if(event.target === this) closeDeleteModal()">
+    <div class="bg-white rounded-3xl p-6 sm:p-7 max-w-md w-full shadow-2xl border border-slate-100 transform transition-all duration-200 scale-95" id="confirmDeleteCard">
+        <div class="w-14 h-14 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center mx-auto mb-4 shadow-inner">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+            </svg>
+        </div>
+        <h3 class="text-base font-extrabold text-slate-900 text-center" id="confirmDeleteTitle">Confirmar Exclusão</h3>
+        <p class="text-xs text-slate-500 text-center mt-2 leading-relaxed" id="confirmDeleteMessage">
+            Tem certeza que deseja prosseguir com a exclusão deste registro? Esta ação é irreversível.
+        </p>
+        <div class="flex items-center gap-3 mt-6">
+            <button type="button" onclick="closeDeleteModal()" class="flex-1 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50 transition-colors">
+                Cancelar
+            </button>
+            <button type="button" id="confirmDeleteSubmitBtn" class="flex-1 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold shadow-md transition-colors">
+                Sim, Confirmar
+            </button>
+        </div>
+    </div>
+</div>
+
 <script>
 function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
@@ -318,6 +378,99 @@ function toggleSidebar() {
         backdrop.classList.add('hidden');
     }
 }
+
+// ── TOAST NOTIFICATION UTILITY ──
+window.showToast = function(message, type = 'success', title = '') {
+    const container = document.getElementById('toast-container');
+    if (!container) return;
+
+    const colors = {
+        success: { border: '#10b981', bg: 'bg-emerald-100', text: 'text-emerald-600', defaultTitle: 'Sucesso' },
+        error:   { border: '#ef4444', bg: 'bg-rose-100', text: 'text-rose-600', defaultTitle: 'Atenção / Erro' },
+        warning: { border: '#f59e0b', bg: 'bg-amber-100', text: 'text-amber-700', defaultTitle: 'Aviso' },
+        info:    { border: '#0081fc', bg: 'bg-blue-100', text: 'text-blue-600', defaultTitle: 'Informação' }
+    };
+
+    const cfg = colors[type] || colors.info;
+    const finalTitle = title || cfg.defaultTitle;
+
+    const toast = document.createElement('div');
+    toast.className = 'pointer-events-auto flex items-start gap-3 p-4 rounded-2xl bg-white border border-slate-200 shadow-xl text-slate-800 text-xs transition-all duration-300 transform toast-item toast-enter';
+    toast.style.borderLeft = `4px solid ${cfg.border}`;
+    toast.innerHTML = `
+        <div class="w-7 h-7 rounded-xl ${cfg.bg} ${cfg.text} flex items-center justify-center shrink-0">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <div class="flex-1 min-w-0 pt-0.5">
+            <p class="font-bold text-slate-900 text-xs">${finalTitle}</p>
+            <p class="text-slate-600 mt-0.5 leading-relaxed">${message}</p>
+        </div>
+        <button type="button" onclick="this.closest('.toast-item').remove()" class="text-slate-400 hover:text-slate-600 p-1">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+    `;
+
+    container.appendChild(toast);
+
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(-10px)';
+        setTimeout(() => toast.remove(), 300);
+    }, 5000);
+};
+
+// Auto-dismiss initial toasts
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.toast-item').forEach(t => {
+        setTimeout(() => {
+            t.style.opacity = '0';
+            t.style.transform = 'translateY(-10px)';
+            setTimeout(() => t.remove(), 300);
+        }, 5000);
+    });
+});
+
+// ── CONFIRMATION MODAL UTILITY ──
+let activeDeleteForm = null;
+
+window.openDeleteModal = function(formIdOrElement, itemName = 'este registro', customMessage = null) {
+    activeDeleteForm = (typeof formIdOrElement === 'string') ? document.getElementById(formIdOrElement) : formIdOrElement;
+    const modal = document.getElementById('confirmDeleteModal');
+    const card = document.getElementById('confirmDeleteCard');
+    const msgEl = document.getElementById('confirmDeleteMessage');
+
+    if (customMessage) {
+        msgEl.textContent = customMessage;
+    } else {
+        msgEl.innerHTML = `Tem certeza que deseja remover <strong>${itemName}</strong>? Esta ação é irreversível e atualizará os dados do sistema.`;
+    }
+
+    modal.classList.remove('hidden');
+    setTimeout(() => {
+        card.classList.remove('scale-95');
+        card.classList.add('scale-100');
+    }, 10);
+};
+
+window.closeDeleteModal = function() {
+    const modal = document.getElementById('confirmDeleteModal');
+    const card = document.getElementById('confirmDeleteCard');
+    if (modal && card) {
+        card.classList.remove('scale-100');
+        card.classList.add('scale-95');
+        setTimeout(() => modal.classList.add('hidden'), 150);
+    }
+};
+
+document.getElementById('confirmDeleteSubmitBtn')?.addEventListener('click', () => {
+    if (activeDeleteForm) {
+        activeDeleteForm.submit();
+    }
+});
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeDeleteModal();
+});
 </script>
 @stack('scripts')
 </body>

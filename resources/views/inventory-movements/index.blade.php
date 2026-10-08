@@ -112,12 +112,22 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="8" class="px-6 py-16 text-center text-slate-400">
-                        <svg class="w-12 h-12 mx-auto mb-3 text-slate-200" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
-                        </svg>
-                        <p class="font-bold text-slate-600">Nenhuma movimentação encontrada</p>
-                        <p class="text-xs text-slate-400 mt-1">Nenhum registro corresponde aos filtros selecionados.</p>
+                    <td colspan="8" class="p-0">
+                        @if(request()->hasAny(['search','tipo','from','to']))
+                        <x-empty-state
+                            title="Nenhuma movimentação encontrada"
+                            description="Nenhum registro corresponde aos filtros ou período selecionados."
+                            actionText="Limpar Filtros"
+                            :actionUrl="route('inventory-movements.index')"
+                        />
+                        @else
+                        <x-empty-state
+                            title="Nenhuma movimentação registrada"
+                            description="Lance entradas, saídas ou ajustes para começar a movimentar o estoque com rastreabilidade."
+                            actionText="Registrar Nova Movimentação"
+                            :actionUrl="route('inventory-movements.create')"
+                        />
+                        @endif
                     </td>
                 </tr>
                 @endforelse

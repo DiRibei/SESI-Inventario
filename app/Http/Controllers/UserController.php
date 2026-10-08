@@ -80,7 +80,14 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         if ($user->id === auth()->id()) {
-            return back()->with('error', 'Você não pode excluir seu próprio usuário.');
+            return back()->with('error', 'Você não pode excluir seu próprio usuário logado.');
+        }
+
+        // Preserve audit logs: If user has registered movements, deactivate instead of deleting
+        if ($user->inventoryMovements()->count() > 0) {
+            $user->update(['ativo' => false]);
+            return redirect()->route('users.index')
+                ->with('warning', "O usuário \"{$user->name}\" possui histórico de movimentações auditadas. O acesso foi desativado para preservar os registros legais.");
         }
 
         $user->delete();
