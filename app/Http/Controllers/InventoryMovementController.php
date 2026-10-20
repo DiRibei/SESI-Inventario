@@ -62,10 +62,11 @@ class InventoryMovementController extends Controller
         ]);
 
         // Wrap everything in a transaction to guarantee atomicity
-        DB::transaction(function () use ($data, $request) {
+        // DB::transaction returns the value returned by the closure
+        $movement = DB::transaction(function () use ($data, $request) {
             $product = Product::lockForUpdate()->findOrFail($data['product_id']);
 
-            $quantidade = (int) $data['quantidade'];
+            $quantidade    = (int) $data['quantidade'];
             $estoque_antes = (int) $product->estoque_atual;
 
             // Strict Business Rule 1: Prevent negative inventory on Saída
@@ -110,8 +111,8 @@ class InventoryMovementController extends Controller
             }
             $product->update($updateData);
 
-            // Write immutable movement record for audit
-            InventoryMovement::create([
+            // Write immutable movement record for audit and return it for the redirect
+            return InventoryMovement::create([
                 'product_id'          => $product->id,
                 'user_id'             => auth()->id(),
                 'tipo'                => $data['tipo'],
@@ -127,8 +128,9 @@ class InventoryMovementController extends Controller
             ]);
         });
 
-        return redirect()->route('inventory-movements.index')
-            ->with('success', 'Movimentação registrada com sucesso no almoxarifado!');
+        // Redirect to the audited comprovante page (as described in the user manual §5)
+        return redirect()->route('inventory-movements.show', $movement)
+            ->with('success', 'Movimentação registrada com sucesso! Verifique o comprovante abaixo.');
     }
 
     public function show(InventoryMovement $inventoryMovement)

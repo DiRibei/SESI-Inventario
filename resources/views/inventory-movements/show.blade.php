@@ -30,13 +30,11 @@
         <div class="p-6 sm:p-8 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
              style="background: linear-gradient(135deg, rgba(10, 0, 70, 0.03), rgba(0, 129, 252, 0.05));">
             <div class="flex items-center gap-3">
-                <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-white font-black text-xl shadow-md shrink-0"
-                     style="background: linear-gradient(135deg, #0081fc, #0a0046);">
-                    S
-                </div>
+                <img src="{{ asset('images/logo.png') }}" alt="STOCKLERO Logo"
+                     class="w-12 h-12 rounded-2xl object-contain bg-white border border-slate-200/80 p-1 shadow-md shrink-0">
                 <div>
                     <h2 class="text-base font-extrabold text-slate-900 leading-tight">Comprovante de Movimentação de Estoque</h2>
-                    <p class="text-xs text-slate-500">Sistema Inteligente de Gerenciamento de Inventário · SENAI</p>
+                    <p class="text-xs text-slate-500">STOCKLERO · Gerenciamento de Inventário · SENAI</p>
                 </div>
             </div>
             <div class="sm:text-right">

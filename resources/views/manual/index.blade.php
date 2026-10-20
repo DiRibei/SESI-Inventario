@@ -8,14 +8,19 @@
 
     {{-- Hero Banner --}}
     <div class="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 rounded-3xl p-6 sm:p-8 text-white shadow-md relative overflow-hidden">
-        <div class="relative z-10">
-            <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-blue-500/30 text-blue-200 border border-blue-400/30">
-                Documentação Oficial
-            </span>
-            <h1 class="text-2xl sm:text-3xl font-extrabold mt-3 tracking-tight">Sistema Inteligente de Gerenciamento de Inventário</h1>
-            <p class="text-sm text-blue-100/80 mt-2 max-w-2xl leading-relaxed">
-                Guia prático para operadores e administradores do almoxarifado do SESI / SENAI. Conheça as funcionalidades de rastreamento, controle atômico de saldos, alertas de estoque mínimo e emissão de relatórios gerenciais.
-            </p>
+        <div class="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+            <div>
+                <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-blue-500/30 text-blue-200 border border-blue-400/30">
+                    Documentação Oficial · STOCKLERO
+                </span>
+                <h1 class="text-2xl sm:text-3xl font-extrabold mt-3 tracking-tight">Manual do Usuário — STOCKLERO</h1>
+                <p class="text-sm text-blue-100/80 mt-2 max-w-2xl leading-relaxed">
+                    Guia prático para operadores e administradores do almoxarifado do SENAI / SESI. Conheça as funcionalidades de rastreamento, controle atômico de saldos, alertas de estoque mínimo e emissão de relatórios gerenciais na plataforma STOCKLERO.
+                </p>
+            </div>
+            <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-white/10 p-2 border border-white/20 shadow-xl shrink-0 backdrop-blur-md flex items-center justify-center">
+                <img src="{{ asset('images/logo.png') }}" alt="STOCKLERO Logo" class="w-full h-full object-contain filter drop-shadow">
+            </div>
         </div>
         <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
     </div>
@@ -170,7 +175,7 @@
     {{-- Technical Support / Institutional Footer --}}
     <div class="p-6 rounded-2xl bg-slate-100 border border-slate-200 text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div>
-            <p class="font-bold text-slate-700">SESI / SENAI — Curso Técnico em Desenvolvimento de Sistemas</p>
+            <p class="font-bold text-slate-700">STOCKLERO · SESI / SENAI — Curso Técnico em Desenvolvimento de Sistemas</p>
             <p class="mt-0.5">Rua Senador Accioly Filho, 298 · Cidade Industrial de Curitiba · Telefone: (41) 3271-7100</p>
         </div>
         <div class="text-right shrink-0">

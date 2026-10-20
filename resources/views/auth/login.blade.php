@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Login — SESI Inventário SENAI</title>
+    <title>Login — STOCKLERO · SENAI</title>
+    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -22,15 +23,13 @@
 
         {{-- Brand header --}}
         <div class="text-center mb-8">
-            <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-4 shadow-2xl"
-                 style="background: linear-gradient(135deg, #0081fc, #2263c8);">
-                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
-                </svg>
+            <div class="inline-flex items-center justify-center w-24 h-24 rounded-3xl mb-3 shadow-2xl p-2"
+                 style="background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05)); border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(10px);">
+                <img src="{{ asset('images/logo.png') }}" alt="STOCKLERO Logo" class="w-full h-full object-contain filter drop-shadow-md">
             </div>
-            <h1 class="text-2xl font-extrabold text-white tracking-tight">SESI Inventário</h1>
-            <p class="text-white/50 text-sm mt-1">Sistema Inteligente de Gerenciamento de Inventário</p>
-            <p class="text-white/30 text-xs mt-1 font-medium tracking-widest uppercase">SENAI</p>
+            <h1 class="text-3xl font-black text-white tracking-tight">STOCKLERO</h1>
+            <p class="text-blue-200/70 text-sm mt-1 font-medium">Sistema Inteligente de Gerenciamento de Inventário</p>
+            <p class="text-white/40 text-[11px] mt-1 font-semibold tracking-widest uppercase">SENAI / SESI</p>
         </div>
 
         {{-- Login card --}}

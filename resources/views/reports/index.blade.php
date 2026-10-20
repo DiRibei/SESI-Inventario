@@ -8,10 +8,13 @@
 {{-- ── PRINT-ONLY OFFICIAL HEADER ────────────────────────────────────────── --}}
 <div class="hidden print-only mb-6 border-b-2 border-slate-900 pb-4">
     <div class="flex items-center justify-between">
-        <div>
-            <h1 class="text-xl font-black uppercase tracking-tight text-slate-900">SENAI · Sistema Fiep</h1>
-            <h2 class="text-sm font-bold text-slate-700">Sistema Inteligente de Gerenciamento de Inventário</h2>
-            <p class="text-xs text-slate-500">Relatório Consolidado de Movimentações de Almoxarifado</p>
+        <div class="flex items-center gap-3">
+            <img src="{{ asset('images/logo.png') }}" alt="STOCKLERO Logo" class="h-12 w-12 object-contain">
+            <div>
+                <h1 class="text-xl font-black uppercase tracking-tight text-slate-900">STOCKLERO · SENAI</h1>
+                <h2 class="text-sm font-bold text-slate-700">Sistema Inteligente de Gerenciamento de Inventário</h2>
+                <p class="text-xs text-slate-500">Relatório Consolidado de Movimentações de Almoxarifado</p>
+            </div>
         </div>
         <div class="text-right text-xs text-slate-600">
             <p><strong>Emitido em:</strong> {{ now()->format('d/m/Y \à\s H:i:s') }}</p>
@@ -68,7 +71,7 @@
     </div>
 
     {{-- Main Filter Form --}}
-    <form method="GET" action="{{ route('reports.index') }}" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5 text-xs">
+    <form method="GET" action="{{ route('reports.index') }}" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3.5 text-xs">
         
         {{-- Data Inicial --}}
         <div>
@@ -93,6 +96,19 @@
                 <option value="saida" {{ request('tipo') === 'saida' ? 'selected' : '' }}>Saídas (-)</option>
                 <option value="ajuste" {{ request('tipo') === 'ajuste' ? 'selected' : '' }}>Ajustes</option>
                 <option value="transferencia" {{ request('tipo') === 'transferencia' ? 'selected' : '' }}>Transferências</option>
+            </select>
+        </div>
+
+        {{-- Categoria --}}
+        <div>
+            <label class="block font-bold text-slate-600 mb-1">Categoria</label>
+            <select name="category_id" class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-500">
+                <option value="">Todas as categorias</option>
+                @foreach($categories as $cat)
+                <option value="{{ $cat->id }}" {{ request('category_id') == $cat->id ? 'selected' : '' }}>
+                    {{ $cat->nome }}
+                </option>
+                @endforeach
             </select>
         </div>
 

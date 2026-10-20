@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'SESI Inventário') }} — @yield('title', 'Dashboard')</title>
+    <title>{{ config('app.name', 'STOCKLERO') }} — @yield('title', 'Dashboard')</title>
+    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
     
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,16 +45,13 @@
         {{-- Logo / Brand Header --}}
         <div class="flex items-center justify-between px-6 py-5 border-b border-white/10">
             <a href="{{ route('dashboard') }}" class="flex items-center gap-3 group">
-                <div class="w-10 h-10 rounded-xl flex items-center justify-center text-white font-black text-xl shadow-lg transition-transform group-hover:scale-105"
-                     style="background: linear-gradient(135deg, #0081fc, #063899);">
-                    S
-                </div>
+                <img src="{{ asset('images/logo.png') }}" alt="STOCKLERO Logo"
+                     class="w-10 h-10 rounded-xl object-contain bg-white/10 p-1 border border-white/15 shadow-lg transition-transform group-hover:scale-105 shrink-0">
                 <div>
                     <div class="flex items-center gap-1.5">
-                        <span class="text-white font-extrabold text-sm tracking-tight">SESI</span>
-                        <span class="text-blue-400 font-semibold text-xs tracking-wider uppercase">Inventário</span>
+                        <span class="text-white font-extrabold text-base tracking-tight">STOCKLERO</span>
                     </div>
-                    <p class="text-white/40 text-[10px] uppercase font-bold tracking-widest">Sistema Fiep · SENAI</p>
+                    <p class="text-white/40 text-[10px] uppercase font-bold tracking-widest">Almoxarifado · SENAI</p>
                 </div>
             </a>
             <button onclick="toggleSidebar()" class="lg:hidden text-white/60 hover:text-white p-1">
@@ -334,7 +332,7 @@
 
         {{-- Footer --}}
         <footer class="bg-white border-t border-slate-200/80 px-6 py-2.5 text-center text-[11px] text-slate-400 no-print flex items-center justify-between">
-            <span>Sistema Inteligente de Gerenciamento de Inventário · SESI / SENAI</span>
+            <span>STOCKLERO · Sistema Inteligente de Gerenciamento de Inventário · SENAI</span>
             <span>Versão 2.0 · PHP 8.2 & Laravel</span>
         </footer>
 

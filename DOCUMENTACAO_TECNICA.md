@@ -1,4 +1,4 @@
-# Documentação Técnica — Sistema Inteligente de Gerenciamento de Inventário
+# Documentação Técnica — STOCKLERO (Sistema Inteligente de Gerenciamento de Inventário)
 
 **Instituição:** SESI / SENAI — Curso Técnico em Desenvolvimento de Sistemas  
 **Unidade:** Rua Senador Accioly Filho, 298 — Cidade Industrial de Curitiba/PR  
@@ -9,7 +9,7 @@
 
 ## 1. Visão Geral da Arquitetura
 
-O **Sistema Inteligente de Gerenciamento de Inventário** foi concebido para eliminar o controle manual em planilhas eletrônicas no almoxarifado do SESI/SENAI, provendo rastreabilidade total, integridade referencial, bloqueio de estoque negativo e visibilidade analítica em tempo real através de dashboards e relatórios consolidados.
+O **STOCKLERO** (Sistema Inteligente de Gerenciamento de Inventário) foi concebido para eliminar o controle manual em planilhas eletrônicas no almoxarifado do SESI/SENAI, provendo rastreabilidade total, integridade referencial, bloqueio de estoque negativo e visibilidade analítica em tempo real através de dashboards e relatórios consolidados.
 
 ### Pilha Tecnológica (Tech Stack)
 - **Backend Framework:** Laravel 12.x sobre PHP 8.2 (XAMPP)
@@ -71,7 +71,7 @@ erDiagram
         string codigo UK
         string nome
         text descricao
-        enum tipo "prateleira, gaveta, pallet, armario, galpao"
+        enum tipo "galpao, prateleira, armario, sala, externo"
         boolean ativo
         datetime deleted_at
     }

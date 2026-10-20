@@ -85,7 +85,8 @@ class InventoryMovementTest extends TestCase
             'documento'  => 'NF-TEST-01',
         ]);
 
-        $response->assertRedirect('/inventory-movements');
+        // After registering, the system redirects to the comprovante (show) page
+        $response->assertRedirectContains('/inventory-movements/');
 
         $this->product->refresh();
         $this->assertEquals($initialStock + 5, $this->product->estoque_atual);
@@ -109,7 +110,8 @@ class InventoryMovementTest extends TestCase
             'motivo'     => 'Requisição para oficina',
         ]);
 
-        $response->assertRedirect('/inventory-movements');
+        // After registering, the system redirects to the comprovante (show) page
+        $response->assertRedirectContains('/inventory-movements/');
 
         $this->product->refresh();
         $this->assertEquals($initialStock - 3, $this->product->estoque_atual);

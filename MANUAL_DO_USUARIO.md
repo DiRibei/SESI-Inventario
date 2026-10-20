@@ -1,14 +1,14 @@
-# Manual do Usuário — Sistema Inteligente de Gerenciamento de Inventário
+# Manual do Usuário — STOCKLERO
 
 **SESI / SENAI — Curso Técnico em Desenvolvimento de Sistemas**  
 **Unidade:** Rua Senador Accioly Filho, 298 — Cidade Industrial de Curitiba/PR  
-**Sistema:** Gerenciamento Inteligente de Almoxarifado e Inventário  
+**Sistema:** STOCKLERO — Gerenciamento Inteligente de Almoxarifado e Inventário  
 
 ---
 
 ## 1. Introdução e Objetivo
 
-Este manual foi elaborado para orientar os operadores de almoxarifado, instrutores e administradores na utilização diária do **Sistema Inteligente de Gerenciamento de Inventário**. O sistema substitui completamente planilhas e formulários em papel, proporcionando:
+Este manual foi elaborado para orientar os operadores de almoxarifado, instrutores e administradores na utilização diária do **STOCKLERO** (Sistema Inteligente de Gerenciamento de Inventário). O sistema substitui completamente planilhas e formulários em papel, proporcionando:
 - Controle em tempo real do saldo de materiais, ferramentas e insumos.
 - Rastreamento completo de quem requisitou ou inseriu cada item.
 - Notificações automáticas quando um produto atinge o estoque de segurança.

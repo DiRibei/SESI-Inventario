@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
     {
         // ── 1. USERS ──────────────────────────────────────────────────────────
         $admin = User::create([
-            'name'     => 'Administrador SENAI',
+            'name'     => 'Administrador Geral',
             'email'    => 'admin@senai.br',
             'password' => Hash::make('admin123'),
             'role'     => 'admin',
@@ -334,7 +334,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->command->info('✅  Seeder concluído com sucesso!');
-        $this->command->info('    Admin: admin@senai.br / admin123');
+        $this->command->info('    Admin (Administrador Geral): admin@senai.br / admin123');
         $this->command->info('    Operador: carlos.oliveira@senai.br / operador123');
         $this->command->info('    Operador: fernanda.lima@senai.br / operador123');
         $this->command->info('    Produtos cadastrados: ' . count($createdProducts));
