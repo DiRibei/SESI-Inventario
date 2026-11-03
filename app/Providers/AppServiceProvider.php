@@ -19,7 +19,9 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
+    public function boot(if($this->app->environment('production')) {
+    \Illuminate\Support\Facades\URL::forceScheme('https');
+}): void
     {
         View::composer('layouts.app', function ($view) {
             if (auth()->check()) {
